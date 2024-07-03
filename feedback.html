@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arecanut Leaf Disease Detection</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #a39c9c; color: #000; }
+    .container { margin-top: 50px; }
+    .navbar-brand img { border-radius: 50%; width: 70px; }
+    .navbar-brand span {
+      font-size: 1.5rem; /* Font size for the text next to the logo */
+      font-weight: bold;
+      font-family: Arial, sans-serif; 
+      margin-left: 10px; /* Margin between the logo and the text */
+      color: #fdfefe; /* White text color */
+    }
+    .navbar-nav { margin-left: auto; }
+    .nav-link { color: #fff !important;transition: color 0.1s, transform 0.1s; }
+    .nav-link:hover { color: #28a745 !important; text-decoration: underline; transform: scale(1.2); }
+    .active .nav-link { color: #8795df !important; text-decoration: underline; }
+    .jumbotron { background-color: rgba(247, 241, 241, 0.966); padding: 50px; border-radius: 20px; }
+    .jumbotron h1 { font-size: 2.5rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .jumbotron p { font-size: 1.25rem; }
+    .btn-get-started { background-color: #007bff; border-color: #007bff; font-weight: bold; }
+    .btn-get-started:hover { background-color: #0056b3; border-color: #0056b3; transform: scale(1.1); }
+    .form-group textarea { resize: none; height: 100px; max-height: 100px; background-color: #ffffff; }
+    #feedbackMessage { margin-top: 20px; }
+
+    /* Add hover effect for submit and clear buttons */
+    .btn-primary:hover { transform: scale(1.1); }
+    .btn-secondary:hover { transform: scale(1.1); }
+
+    /* CSS for the loading spinner */
+    .spinner-border {
+      display: inline-block;
+      width: 2rem;
+      height: 2rem;
+      vertical-align: text-bottom;
+      border: 0.25em solid currentColor;
+      border-right-color: transparent;
+      border-radius: 50%;
+      animation: spinner-border .75s linear infinite;
+    }
+
+    @keyframes spinner-border {
+      100% { transform: rotate(360deg); }
+    }
+
+    #loadingMessage {
+      display: none;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <img src="/static/areca seed.jfif" alt="Arecanut Disease Detection Logo">
+        <span>ArecaNut Leaf Detection</span>
+      </a>
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Help</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Contact</a></li>
+        <li class="nav-item active"><a class="nav-link" href="#">Feedback</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="container">
+    <div class="jumbotron text-center">
+      <h1 class="display-4">We'd Love to Hear Your Feedback</h1>
+      <p class="lead">Please provide your valuable feedback below:</p>
+      <hr class="my-4">
+      <form id="feedbackForm" method="post">
+        <div class="form-group">
+          <label for="emailInput">Your Email:</label>
+          <input type="email" class="form-control" id="emailInput" name="email" placeholder="Enter your email" required>
+        </div>
+        <div class="form-group">
+          <label for="feedbackTextarea">Your Feedback:</label>
+          <textarea class="form-control" id="feedbackTextarea" name="feedback" rows="3" placeholder="Please enter your Feedback" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+        <button type="button" class="btn btn-secondary btn-lg" id="clearButton">Clear</button>
+      </form>
+      <div id="loadingMessage">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <span>Sending your feedback, please wait...</span>
+      </div>
+      <div id="feedbackMessage" style="display: none;" class="alert alert-success"></div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('#feedbackForm').on('submit', function(event) {
+        event.preventDefault(); // Prevent form from submitting the default way
+        
+        // Show loading message
+        $('#loadingMessage').show();
+        $('#feedbackMessage').hide();
+
+        $.ajax({
+          type: 'POST',
+          url: '/submit_feedback',
+          data: $(this).serialize(),
+          success: function(response) {
+            $('#loadingMessage').hide();
+            $('#feedbackMessage').removeClass('alert-danger').addClass('alert-success').text(response).show();
+            $('#feedbackForm')[0].reset(); // Clear form fields
+            // Hide the message after 5 seconds
+            setTimeout(function() {
+              $('#feedbackMessage').hide();
+            }, 5000);
+          },
+          error: function() {
+            $('#loadingMessage').hide();
+            $('#feedbackMessage').removeClass('alert-success').addClass('alert-danger').text('Failed to send feedback. Please try again later.').show();
+            // Hide the message after 5 seconds
+            setTimeout(function() {
+              $('#feedbackMessage').hide();
+            }, 5000);
+          }
+        });
+      });
+
+      // Clear button functionality
+      $('#clearButton').on('click', function() {
+        $('#feedbackTextarea').val(''); // Clear the feedback textarea
+      });
+    });
+  </script>
+</body>
+</html>

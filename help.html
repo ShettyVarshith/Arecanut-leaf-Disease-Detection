@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Help - Arecanut Leaf Disease Detection</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <style>
+    /* Add your custom CSS styles here */
+    body {
+      background-color: #a39c9c; /* Royal light grey background */
+      color: #000; /* White text color */
+      overflow-x: hidden; /* Hide horizontal scrollbar */
+    }
+    .container {
+      margin-top: 50px;
+    }
+    .navbar-brand img {
+      background-color: #fff; /* White background for logo */
+      border-radius: 50%; /* Make logo round */
+      width: 70px; /* Adjust logo width */
+    }
+    .navbar-brand span {
+      font-size: 1.5rem; /* Font size for the text next to the logo */
+      font-weight: bold;
+      font-family: Arial, sans-serif; 
+      margin-left: 10px; /* Margin between the logo and the text */
+      color: #fdfefe; /* White text color */
+    }
+    .navbar-nav {
+      margin-left: auto; /* Move navigation links to the right */
+    }
+    .nav-link {
+      color: #fff !important; /* White text color */
+      transition: color 0.1s, transform 0.1s;  /* Smooth transition for color change */
+    }
+    .nav-item.active .nav-link {
+      text-decoration: underline; /* Underline active page */
+    }
+    .nav-link:hover {
+      color: #28a745 !important; /* Green text color on hover */
+      text-decoration: underline; /* Underline on hover */
+      transform: scale(1.2); 
+    }
+    .active .nav-link {
+      color: #8795df !important; /* Green text color for active link */
+      text-decoration: underline; /* Underline active page */
+    }
+    .jumbotron {
+      background-color: rgba(247, 241, 241, 0.966); /* Darkened jumbotron background */
+      padding: 30px;
+      border-radius: 20px;
+      margin-top: 20px; /* Adjust margin from top */
+    }
+    .jumbotron h1 {
+      font-size: 2.5rem; /* Larger font size for heading */
+    }
+    .jumbotron p {
+      font-size: 1.25rem; /* Larger font size for paragraphs */
+    }
+    .btn-get-started {
+      background-color: #007bff; /* Blue button background */
+      border-color: #007bff; /* Blue button border color */
+      font-weight: bold;
+      transition: background-color 0.3s, border-color 0.3s, transform 0.1s; /* Smooth transition for background and border color change */
+    }
+    .btn-get-started:hover {
+      background-color: #0056b3; /* Darker blue on hover */
+      border-color: #0056b3; /* Darker blue border on hover */
+      transform: scale(1.1); /* Scale up the button size on hover */
+    }
+    .btn-back-home {
+      background-color: transparent; /* Transparent background */
+      border: none; /* Remove border */
+      font-weight: bold;
+      color: #007bff; /* Blue text color */
+      transition: transform 0.3s;  /* Smooth transition for color change */
+    }
+    .btn-back-home:hover {
+      color: #0056b3; /* Darker blue on hover */
+      text-decoration: underline; /* Underline on hover */
+      transform: scale(1.1); /* Scale up the button size on hover */
+    }
+    /* Increase the size of the top-right button background vertically */
+    .navbar-nav.ml-auto .nav-item {
+      margin-top: 0.25rem; /* Adjust top margin */
+      margin-bottom: 0.25rem; /* Adjust bottom margin */
+    }
+    /* Adjust navbar padding and margin */
+    .navbar {
+      padding: 0.5rem 1rem; /* Adjust padding */
+      margin-bottom: 0; /* Remove bottom margin */
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <!-- Logo and text -->
+      <a class="navbar-brand" href="#">
+        <img src="/static/areca seed.jfif" alt="Arecanut Disease Detection Logo">
+        <span>ArecaNut Leaf Detection</span>
+      </a>
+      <!-- Navigation links -->
+      <ul class="navbar-nav ml-auto"> <!-- Use ml-auto to push the navigation items to the right -->
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+        </li>
+        <li class="nav-item active"> <!-- Add active class to underline the current page -->
+          <a class="nav-link" href="#">Help</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('contact') }}">Contact</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('feedback_form') }}">Feedback</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <div class="container">
+    <!-- Jumbotron with help content -->
+    <div class="jumbotron text-center">
+      <h1 class="display-4">Arecanut Leaf Disease Detection</h1>
+      <p class="lead">Welcome to the help page!</p>
+      <hr class="my-4">
+      <h3>How to Use</h3>
+      <p>To detect diseases or no disease in Arecanut leaves, simply upload an image of the leaf using the "Choose File" button. Our advanced disease detection technology will analyze the image and provide you with the prediction result.</p>
+      <p>If you encounter any issues or have any questions, feel free to contact us.</p>
+      <a class="btn btn-primary btn-lg btn-get-started" href="{{ url_for('home') }}" role="button">Back to Home</a>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <!-- JavaScript to underline active page -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Get the current page URL
+      var currentPageUrl = window.location.href;
+
+      // Get all navigation links
+      var navLinks = document.querySelectorAll('.nav-link');
+
+      // Loop through each navigation link
+      navLinks.forEach(function (link) {
+        // Check if the link URL matches the current page URL
+        if (link.getAttribute('href') === currentPageUrl) {
+          // Add 'active' class to parent list item to underline the link
+          link.parentNode.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

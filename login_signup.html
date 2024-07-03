@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Login and Sign-Up</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background-color: #BAD2D5;
+            font-family: 'Arial', sans-serif;
+        }
+        .navbar-container {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #343a40;
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            padding-left: 20px;
+        }
+        .navbar-left img {
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+        }
+        .navbar-left span {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-left: 10px;
+            color: #fff;
+        }
+        .navbar-nav {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            padding-right: 20px;
+        }
+        .nav-item {
+            list-style: none;
+        }
+        .nav-link {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 1rem;
+            transition: color 0.1s, transform 0.1s;
+        }
+        .nav-link:hover {
+            color: #28a745;
+            text-decoration: underline;
+            transform: scale(1.2);
+        }
+        .active .nav-link {
+            color: #8795df;
+            text-decoration: underline;
+        }
+        .content {
+            margin-top: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .form-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            margin: 0 20px;
+        }
+        .form-container h2 {
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            color: #333;
+        }
+        .form-container label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        .form-container input, .form-container select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #28a745;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .form-container button:hover {
+            background-color: #218838;
+        }
+        .toggle-link {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            color: #007bff;
+            cursor: pointer;
+        }
+        .message {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .error-message {
+            color: red;
+        }
+        .success-message {
+            color: green;
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .loading img {
+            width: 30px;
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation bar -->
+    <div class="navbar-container">
+        <div class="navbar-left">
+            <img src="{{ url_for('static', filename='areca seed.jfif') }}" alt="Arecanut Disease Detection Logo">
+            <span>ArecaNut Leaf Detection</span>
+        </div>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('help') }}">Help</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('contact') }}">Contact</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('feedback_form') }}">Feedback</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('login_signup') }}">Login</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+        <!-- Login Form -->
+        <div class="form-container" id="loginForm">
+            <h2>Login</h2>
+            <form onsubmit="return validateLoginForm()">
+                <label for="loginEmail">Email:</label>
+                <input type="email" id="loginEmail" name="loginEmail" required>
+                <label for="loginPassword">Password:</label>
+                <input type="password" id="loginPassword" name="loginPassword" required>
+                <button type="submit">Login</button>
+            </form>
+            <div class="loading" id="loginLoading">
+                <img src="static/loading.gif" alt="Loading...">
+            </div>
+            <div class="message" id="loginMessage"></div>
+            <span class="toggle-link" onclick="showSignUp()">Don't have an account? Sign Up</span>
+        </div>
+
+        <!-- Sign-Up Form -->
+        <div class="form-container" id="signUpForm" style="display: none;">
+            <h2>Sign Up</h2>
+            <form id="signUpFormElement" onsubmit="return validateSignUpForm()">
+                <label for="fullName">Full Name:</label>
+                <input type="text" id="fullName" name="fullName" required>
+                <label for="mobileNumber">Mobile Number:</label>
+                <input type="tel" id="mobileNumber" name="mobileNumber" pattern="[0-9]{10}" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <label for="gender">Gender:</label>
+                <select id="gender" name="gender" required>
+                    <option value="" disabled selected>Select your gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+                <label for="dob">Date of Birth:</label>
+                <input type="date" id="dob" name="dob" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+                <button type="submit">Sign Up</button>
+            </form>
+            <div class="loading" id="loading">
+                <img src="static/loading.gif" alt="Loading...">
+            </div>
+            <div class="message" id="signUpMessage"></div>
+            <span class="toggle-link" onclick="showLogin()">Already have an account? Login</span>
+        </div>
+    </div>
+
+    <script>
+        function showSignUp() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('signUpForm').style.display = 'block';
+        }
+
+        function showLogin() {
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('signUpForm').style.display = 'none';
+        }
+
+        function validateLoginForm() {
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    const message = document.getElementById('loginMessage');
+    const loading = document.getElementById('loginLoading');
+    const passwordPattern = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*\d).{8,}$/;
+
+    if (!passwordPattern.test(password)) {
+        message.style.display = 'block';
+        message.className = 'message error-message';
+        message.textContent = 'Password must be at least 8 characters long, start with an uppercase letter, contain at least one special character, and one number.';
+        return false;
+    }
+
+    message.style.display = 'none';
+    loading.style.display = 'block';
+
+    // Simulate a login process
+    setTimeout(() => {
+        loading.style.display = 'none';
+        message.style.display = 'block';
+        message.className = 'message success-message';
+        message.textContent = 'Login successful!';
+
+        // Clear the form inputs
+        document.querySelector('#loginForm form').reset();
+
+        // Hide the success message after 5 seconds and navigate to Home.html
+        setTimeout(() => {
+            message.style.display = 'none';
+            window.location.href ="{{ url_for('home') }}";
+        }, 1000);
+    }, 1000);
+
+    return false; // Prevent actual form submission for demonstration
+}
+
+        function validateSignUpForm() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const message = document.getElementById('signUpMessage');
+            const loading = document.getElementById('loading');
+            const passwordPattern = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*\d).{8,}$/;
+
+            if (password !== confirmPassword) {
+                message.style.display = 'block';
+                message.className = 'message error-message';
+                message.textContent = 'Passwords do not match';
+                return false;
+            }
+
+            if (!passwordPattern.test(password)) {
+                message.style.display = 'block';
+                message.className = 'message error-message';
+                message.textContent = 'Password must be at least 8 characters long, start with an uppercase letter, contain at least one special character, and one number.';
+                return false;
+            }
+
+            message.style.display = 'none';
+            loading.style.display = 'block';
+
+
+            // Simulate a sign-up process
+            setTimeout(() => {
+                loading.style.display = 'none';
+                message.style.display = 'block';
+                message.className = 'message success-message';
+                message.textContent = 'Successfully signed up!';
+                
+                // Clear the form inputs
+                document.getElementById('signUpFormElement').reset();
+
+                // Hide the success message after 5 seconds
+                setTimeout(() => {
+                    message.style.display = 'none';
+                }, 3000);
+            }, 2000);
+
+            return false; // Prevent actual form submission for demonstration
+        }
+    </script>
+</body>
+</html>

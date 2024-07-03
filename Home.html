@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arecanut Leaf Disease Detection</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <style>
+    /* Add your custom CSS styles here */
+    body {
+      background-image: url('/static/nature.jpg'); /* Background image */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: #fff; /* White text color */
+    }
+    .container {
+      margin-top: 50px; /* Adjust margin from top */
+    }
+    .navbar-brand img {
+      border-radius: 50%; /* Make logo round */
+      width: 70px; /* Adjust logo width */
+    }
+    .navbar-brand span {
+      font-size: 1.5rem; /* Font size for the text next to the logo */
+      font-weight: bold;
+      font-family: Arial, sans-serif; 
+      margin-left: 10px; /* Margin between the logo and the text */
+      color: #fdfefe; /* White text color */
+    }
+    .navbar-nav {
+      margin-left: auto; /* Move navigation links to the right */
+    }
+    .nav-link {
+      color: #fff !important; /* White text color */
+      transition: color 0.1s, transform 0.1s; /* Smooth transition for color and transform */
+    }
+    .nav-link:hover {
+      color: #28a745 !important; /* Green text color on hover */
+      text-decoration: underline; /* Underline on hover */
+      transform: scale(1.2); /* Scale up the button size on hover */
+    }
+    .active .nav-link {
+      color: #8795df !important; /* Green text color for active link */
+      text-decoration: underline; /* Underline active page */
+    }
+    .jumbotron {
+      background-color: rgba(0, 0, 0, 0.7); /* Darkened jumbotron background */
+      padding: 50px;
+      border-radius: 20px;
+    }
+    .jumbotron h1 {
+      font-size: 2.5rem; /* Smaller font size for heading */
+      white-space: nowrap; /* Prevent text wrapping */
+      overflow: hidden; /* Hide overflow text */
+      text-overflow: ellipsis; /* Show ellipsis for overflow text */
+    }
+    .jumbotron p {
+      font-size: 1.25rem; /* Medium font size for paragraphs */
+    }
+    .btn-get-started {
+      background-color: #007bff; /* Blue button background */
+      border-color: #007bff; /* Blue button border color */
+      font-weight: bold;
+      transition: transform 0.3s; /* Smooth transition for transform */
+    }
+    .btn-get-started:hover {
+      background-color: #0056b3; /* Darker blue on hover */
+      border-color: #0056b3; /* Darker blue border on hover */
+      transform: scale(1.1); /* Scale up the button size on hover */
+    }
+    /* Moving text banner */
+    .moving-text-container {
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      position: absolute;
+      top: 0;
+      padding: 10px 0;
+    }
+    .moving-text {
+      display: inline-block;
+      padding-left: 10%;
+      animation: marquee 30s linear infinite;
+      color: hsl(0, 0%, 96%);
+      font-size: 1.00rem;
+      /*font-weight: bold;*/
+    }
+    @keyframes marquee {
+      0% {
+        transform: translate(100%, 0);
+      }
+      100% {
+        transform: translate(-100%, 0);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="moving-text-container">
+      <div class="moving-text">Welcome to Arecanut Leaf Disease Detection, Developed by Shetty Varshith. For professional inquiries and paid projects, please contact via the Contact page.</div>
+    </div>
+    <div class="container">
+      <!-- Logo and text -->
+      <a class="navbar-brand" href="{{ url_for('home') }}">
+        <img src="{{ url_for('static', filename='areca seed.jfif') }}" alt="Arecanut Disease Detection Logo">
+        <span>ArecaNut Leaf Detection</span>
+      </a>
+      <!-- Navigation links -->
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('help') }}">Help</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('contact') }}">Contact</a>
+        </li>
+        <!-- Feedback button -->
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('feedback_form') }}">Feedback</a>
+        </li>
+        <!-- Login button -->
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('login_signup') }}">Login</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <div class="container">
+    <!-- Jumbotron with project introduction -->
+    <div class="jumbotron text-center">
+      <h1 class="display-4">Welcome to the advanced platform for identifying diseases in Arecanut leaves</h1>
+      <p class="lead">Revolutionizing arecanut farming with advanced disease detection technology.</p>
+      <hr class="my-4">
+      <p>Monitor the health of your crops efficiently and maintain a healthy market supply.</p>
+      <a class="btn btn-primary btn-lg btn-get-started" href="http://localhost:8501" role="button">Get Started</a>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS and dependencies (optional) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
